@@ -10,3 +10,6 @@ url/
 
 # ido local history
 ido.last
+
+# Desktops seemed like a good idea but they're way too variable between machines
+.emacs.desktop
