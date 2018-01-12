@@ -1,0 +1,10 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("UC"
+ (filename . "c:/Users/Javier/Google Drive/UC/")
+ (front-context-string . "2017 - 2\n  drwxr")
+ (rear-context-string . "096 08-06 16:50 ")
+ (position . 537))
+)

@@ -1,0 +1,12 @@
+# Directories
+auto-save-list/
+elpa/
+.python-environments/
+url/
+# Snippets folder would be useful to have synchronized
+
+# File Auto-saves
+*~
+
+# ido local history
+ido.last
