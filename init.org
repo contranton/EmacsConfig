@@ -39,6 +39,13 @@
     :ensure t
     )
 
+  ;; Realgud for better debugging
+  (use-package realgud
+    :ensure t)
+
+  (use-package isend-mode
+    :ensure t)
+
   ;; Pdf viewer
   ;;(use-package pdf-tools
   ;;  :ensure t
@@ -173,6 +180,9 @@
 (setq backup-directory-alist '(("." . "~/.saves/")))
 (setq python-shell-interpreter "ipython")
 (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
+
+;; Enable ansi colors in ipython shell
+(setq ansi-color-for-comint-mode t)
 #+END_SRC
 
 ** Window navigation utilities
