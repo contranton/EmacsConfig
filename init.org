@@ -1,28 +1,10 @@
-* Emacs configuration
 
+* Emacs configuration
+  
 ** Customize-menu Config
 #+BEGIN_SRC emacs-lisp
 
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("82fce2cada016f736dbcef237780516063a17c2436d1ee7f42e395e38a15793b" default)))
- '(package-selected-packages
-   (quote
-    (aggressive-indent aggresive-indent hungry-delete yasnippet-snippets workgroups2 use-package smart-tab rainbow-mode rainbow-delimiters py-autopep8 origami ob-ipython neotree multiple-cursors minimap linum-relative jedi iedit hydra gruvbox-theme gnugo flycheck expand-region elpy ein dired-details counsel ace-window))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 #+END_SRC
-
 ** Configure MELPA for package acquisition
 #+BEGIN_SRC emacs-lisp
 
@@ -37,18 +19,32 @@
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives '("gnu" . (concat proto "://elpa.gnu.org/packages/")))))
 
-(package-initialize)
 #+END_SRC
 ** Package installation
 #+BEGIN_SRC emacs-lisp
+  (package-refresh-contents)
+
   ;; Expand-Region keybind
   (use-package expand-region
     :bind ("C-=" . 'er/expand-region))
 
   ;; Origami
   (use-package origami
-    :ensure t)
+    :ensure t
+    :bind ( "C-<tab>" . origami-recursively-toggle-node) 
+    )
 
+  ;; Magit
+  (use-package magit
+    :ensure t
+    )
+
+  ;; Pdf viewer
+  ;;(use-package pdf-tools
+  ;;  :ensure t
+  ;;)
+
+  ;; Python babeeey
   (use-package elpy
     :ensure t
     :init (progn
@@ -119,10 +115,10 @@
     :config (global-aggressive-indent-mode 1))
 
   ;; Flycheck
-  ;; (use-package flycheck
-  ;;   :ensure t
-  ;;   :init (global-flycheck-mode t)
-  ;;   )
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode t)
+    )
 
   ;; Swiper and Counsel
   (use-package counsel
@@ -165,6 +161,7 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((ipython . t)
+  (python . t)
    ;; other languages..
    )
  )
@@ -173,28 +170,33 @@
 ** Setq Configurations
 #+BEGIN_SRC emacs-lisp
 ;; (setq tab-always-indent)
-(setq next-screen-context-lines 20)
-(setq backup-directory-alist '(("." . "~/.saves")))
-;;(setq python-shell-interpreter "ipython")
-;;(add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
+(setq backup-directory-alist '(("." . "~/.saves/")))
+(setq python-shell-interpreter "ipython")
+(add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
 #+END_SRC
 
 ** Window navigation utilities
 #+BEGIN_SRC emacs-lisp
 
-;; Windmove (Shift-arrws instead of C-x O)
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+  ;; Windmove (Shift-arrws instead of C-x O)
+  (when (fboundp 'windmove-default-keybindings)
+    (windmove-default-keybindings))
 
-;; Make windmove work in org-mode:
-(add-hook 'org-shiftup-final-hook 'windmove-up)
-(add-hook 'org-shiftleft-final-hook 'windmove-left)
-(add-hook 'org-shiftdown-final-hook 'windmove-down)
-(add-hook 'org-shiftright-final-hook 'windmove-right)
+  ;; Make windmove work in org-mode:
+  (add-hook 'org-shiftup-final-hook 'windmove-up)
+  (add-hook 'org-shiftleft-final-hook 'windmove-left)
+  (add-hook 'org-shiftdown-final-hook 'windmove-down)
+  (add-hook 'org-shiftright-final-hook 'windmove-right)
 
-;; WinnerMode (Allows restoring of window configs)
-(when (fboundp 'winner-mode)
-  (winner-mode 1))
+  ;; WinnerMode (Allows restoring of window configs)
+  (when (fboundp 'winner-mode)
+    (winner-mode 1))
+
+  ;;(defun my/dynamic-page-scroll-depth ()
+  ;;  (setq next-screen-context-lines (/ (window-total-height) 5))
+  ;;  )
+
+  ;;(remove  'my/dynamic-page-scroll-depth 'window-scroll-functions)
 
 #+END_SRC
 
@@ -216,19 +218,29 @@
 #+BEGIN_SRC emacs-lisp
 
 
-;; ido for better completions
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
+  ;; ido for better completions
+  (setq ido-enable-flex-matching t)
+  (setq ido-everywhere t)
+  (ido-mode 1)
 
-;; Set which buffers should be opened on the same window
-(push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
+  ;; Set which buffers should be opened on the same window
+  (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
 
-(bind-key (kbd "C-x M-b") 'ibuffer)
+  (bind-key (kbd "C-x M-b") 'ibuffer)
 
+  ;; Turn off alert bell sound
+  (setq visible-bell 1)
 
+  ;; File encoding
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-language-environment 'utf-8)
+  (set-selection-coding-system 'utf-8)
+
+  ;; Page refresh keybinding
+  (global-set-key (kbd "<f5>") 'revert-buffer)
 #+END_SRC
-
+   
 ** Enable minor modes
 
 #+BEGIN_SRC emacs-lisp
@@ -238,7 +250,13 @@
 (desktop-save-mode 1)
 (workgroups-mode 1)
 (global-origami-mode 1)
-(visual-line-mode)
+(visual-line-mode 1)
 
 
+#+END_SRC
+   
+** Mode Hooks
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'flycheck-mode)
 #+END_SRC
