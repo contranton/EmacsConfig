@@ -1,0 +1,21 @@
+ls
+ls
+hell
+hello
+hello 13
+gcc hello.c -Os -o hello
+hello 13
+gcc hello.c -Os -o hello -Wall
+gcc hello.c -Os -o hello -Wall
+gcc hello.c -Os -o hello -Wall
+hello 13
+gcc hello.c -Os -o hello -Wall
+gcc hello.c -Os -o hello -Wall
+gcc hello.c -Os -o hello -Wall
+gcc hello.c -Os -o hello
+gcc hello.c -Os -o hello
+hello 13
+hello 13
+gcc hello.c -Os -o hello
+hello 13
+ssh javier-anton.contreras-kotova@ferrari.polytechnique.fr

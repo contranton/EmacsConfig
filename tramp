@@ -1,0 +1,12 @@
+;; -*- emacs-lisp -*- <19/04/30 09:17:40 c:/Users/Javier/AppData/Roaming/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["ssh" "javier-anton.contreras-kotova" "ferrari.polytechnique.edu" nil nil]
+  nil)
+ (["ssh" "javier-anton.contreras-kotova" "ferrari.polytechcnique.edu" nil nil]
+  nil)
+ (["ssh" "javier-anton.contreras-kotova" "ferrari.polytechnique.fr" nil nil]
+  nil)
+ (["ssh" "javier-anton.contreras-kotova" "ferrari.polytechnique.frq" nil nil]
+  nil))

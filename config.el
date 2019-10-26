@@ -1,4 +1,3 @@
-
 (require 'server)
 (unless (server-running-p)
   (cond
@@ -15,17 +14,62 @@
   (require 'use-package)
 
 
+  (use-package counsel
+    :ensure t
+    :config
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t)
+    (setq ivy-re-builders-alist
+    '((ivy-switch-buffer . ivy--regex-plus)
+      (t . ivy--regex-fuzzy)))
+    :bind
+    (;("\C-s" . swiper)
+     ("\C-c C-s" . counsel-ag)
+     ("C-c C-r" . ivy-resume)
+     ("<f6>" . ivy-resume)
+     ("M-x" . counsel-M-x)
+     ("C-x C-f" . counsel-find-file)
+     ("<f1> f" . counsel-describe-function)
+     ("<f1> v" . counsel-describe-variable)
+     ("<f1> l" . counsel-find-library)
+     ("<f2> i" . counsel-info-lookup-symbol)
+     ("<f2> u" . counsel-unicode-char))
+    )
+
   ;; Set Use-Package to ALWAYS DEFER loading
   (setq use-package-always-defer t)
 
 
-;; htmlize for org exports
-(use-package htmlize
-  :ensure t)
+  ;; PlantUML mode for org class diagram goodness
+  (use-package plantuml-mode
+    :ensure t)
+
+
+  ;; SrSpeedbar for DOCKED SPEEDBAR OMG
+  (use-package sr-speedbar
+    :ensure t
+    :bind ("C-c s" . 'sr-speedbar-toggle))
+
+  ;; flx and flx-ido for Fuzzy completions
+
+  (use-package flx-ido
+    :ensure t
+    :init
+    (ido-mode 1)
+    (ido-everywhere 1)
+    (flx-ido-mode 1)
+    ;; disable ido faces to see flx highlights.
+    (setq ido-enable-flex-matching t)
+    (setq ido-use-faces nil))
+
+  ;; htmlize for org exports
+  (use-package htmlize
+    :ensure t)
 
   ;; Expand-Region keybind
   (use-package expand-region
-    :bind ("C-=" . 'er/expand-region))
+    :ensure t
+    :bind ("C-=" . er/expand-region))
 
   ;; Origami
   (use-package origami
@@ -36,6 +80,7 @@
   ;; Magit
   (use-package magit
     :ensure t
+    :init (setq exec-path (append exec-path '("C:/Program Files/Git/bin")))
     )
 
   ;; Realgud for better debugging
@@ -48,8 +93,8 @@
     :ensure t)
 
   (use-package imenu-list
-   :ensure t
-   :bind ("C-'" . 'imenu-list-smart-toggle))
+    :ensure t
+    :bind ("C-'" . 'imenu-list-smart-toggle))
 
   ;; Pdf viewer
   ;;(use-package pdf-tools
@@ -60,24 +105,26 @@
   (use-package elpy
     :ensure t
     :init (progn
-            (elpy-enable))
+	    (elpy-enable)
+	    (setq elpy-shell-use-project-root nil)
+	    )
     )
 
-  
-(use-package yasnippet
-  :ensure t
-  :init (yas-global-mode 1))
 
-(use-package yasnippet-snippets
- :ensure t)
+  (use-package yasnippet
+    :ensure t
+    :init (yas-global-mode 1))
+
+  (use-package yasnippet-snippets
+    :ensure t)
 
 
-;; Rainboooows
-(use-package rainbow-mode
- :ensure t)
+  ;; Rainboooows
+  (use-package rainbow-mode
+    :ensure t)
 
-(use-package rainbow-delimiters
- :ensure t)
+  (use-package rainbow-delimiters
+    :ensure t)
 
   ;; Relative line numbers keybind
   (use-package linum-relative
@@ -112,22 +159,22 @@
   (use-package multiple-cursors
     :ensure t
     :bind (("C-S-c C-S-c" . 'mc/edit-lines)
-           ("C->" . 'mc/mark-next-like-this)
-           ("C-<" . 'mc/mark-previous-like-this)
-           ("C-c C-<" . 'mc/mark-all-like-this)
-           ))
+	   ("C->" . 'mc/mark-next-like-this)
+	   ("C-<" . 'mc/mark-previous-like-this)
+	   ("C-c C-<" . 'mc/mark-all-like-this)
+	   ))
 
   ;; workgroups2
   (use-package workgroups2
     :ensure t
     :config (progn
-              (setq wg-prefix-key (kbd "C-c z"))
-              (setq wg-session-file "~/.emacs.d/.emacs_workgroups")
-              (global-set-key (kbd "<pause>")     'wg-reload-session)
-              (global-set-key (kbd "C-S-<pause>") 'wg-save-session)
-              (global-set-key (kbd "s-z")         'wg-switch-to-workgroup)
-              (global-set-key (kbd "s-/")         'wg-switch-to-previous-workgroup)
-              ))
+	      (setq wg-prefix-key (kbd "C-c z"))
+	      (setq wg-session-file "~/.emacs.d/.emacs_workgroups")
+	      (global-set-key (kbd "<pause>")     'wg-reload-session)
+	      (global-set-key (kbd "C-S-<pause>") 'wg-save-session)
+	      (global-set-key (kbd "s-z")         'wg-switch-to-workgroup)
+	      (global-set-key (kbd "s-/")         'wg-switch-to-previous-workgroup)
+	      ))
 
   (use-package hungry-delete
     :ensure t
@@ -141,13 +188,13 @@
   (use-package flycheck
     :ensure t
     :init (global-flycheck-mode t)
+(setq flycheck-check-syntax-automatically '(save mode-enable))
     )
 
   ;; Helm and projectile
   (use-package projectile
     :ensure t
     :init
-    (projectile-global-mode)
     (setq projectile-completion-system 'ivy)
     )
 
@@ -156,7 +203,10 @@
     :ensure t)
 
   (use-package powerline
-   :ensure t)
+    :ensure t)
+
+(setq python-shell-interpreter "ipython")
+(add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
 
 ;; active Org-babel languages
 (org-babel-do-load-languages
@@ -164,28 +214,122 @@
  '(
    (plantuml . t)
    (python . t)
+   (ipython .t)
    ))
 
+(setq ob-ipython-resources-dir "~\.emacs.d\ob-ipython-resources")
+(setq org-src-window-setup 'current-frame)
+(setq org-confirm-babel-evaluate nil)
 (setq org-plantuml-jar-path
-    (expand-file-name "~/plantuml.jar"))
+      (expand-file-name "~/plantuml.jar"))
 
 (add-hook 'org-babel-after-execute-hook
-          'org-display-inline-images)
+	  'org-display-inline-images)
 
 (use-package org-trello
-  :ensure t)
+'  :ensure t)
+
+;; TODO states
+(setq org-todo-keywords '((sequence "TODO(t)" "WAITING" "|" "WORKING" "|" "DONE" )))
+
+
+;; Latex Preview'
+(defvar kk/org-latex-fragment-last nil
+    "Holds last fragment/environment you were on.")
+
+  (defun kk/org-in-latex-fragment-p ()
+    "Return the point where the latex fragment begins, if inside
+  a latex fragment. Else return false"
+    (let* ((el (org-element-context))
+	   (el-type (car el)))
+      (and (or (eq 'latex-fragment el-type) (eq 'latex-environment el-type))
+	  (org-element-property :begin el))))
+
+  (defun kk/org-latex-fragment-toggle ()
+    "Toggle a latex fragment image "
+    (and (eq 'org-mode major-mode)
+	 (let ((begin (kk/org-in-latex-fragment-p)))
+	   (cond
+	    ;; were on a fragment and now on a new fragment
+	    ((and
+	      ;; fragment we were on
+	      kk/org-latex-fragment-last
+	      ;; and are on a fragment now
+	      begin
+
+	      ;; but not on the last one this is a little tricky. as you edit the
+	      ;; fragment, it is not equal to the last one. We use the begin
+	      ;; property which is less likely to change for the comparison.
+	      (not (and kk/org-latex-fragment-last
+			(= begin
+			   kk/org-latex-fragment-last))))
+	     ;; go back to last one and put image back, provided there is still a fragment there
+	     (save-excursion
+	       (goto-char kk/org-latex-fragment-last)
+	       (when (kk/org-in-latex-fragment-p) (org-preview-latex-fragment))
+
+	       ;; now remove current image
+	       (goto-char begin)
+	       (let ((ov (loop for ov in (org--list-latex-overlays)
+			       if
+			       (and
+				(<= (overlay-start ov) (point))
+				(>= (overlay-end ov) (point)))
+			       return ov)))
+		 (when ov
+		   (delete-overlay ov)))
+	       ;; and save new fragment
+	       (setq kk/org-latex-fragment-last begin)))
+
+	    ;; were on a fragment and now are not on a fragment
+	    ((and
+	      ;; not on a fragment now
+	      (not begin)
+	      ;; but we were on one
+	      kk/org-latex-fragment-last)
+	     ;; put image back on, provided that there is still a fragment here.
+	     (save-excursion
+	       (goto-char kk/org-latex-fragment-last)
+	       (when (kk/org-in-latex-fragment-p) (org-preview-latex-fragment)))
+
+	     ;; unset last fragment
+	     (setq kk/org-latex-fragment-last nil))
+
+	    ;; were not on a fragment, and now are
+	    ((and
+	      ;; we were not one one
+	      (not kk/org-latex-fragment-last)
+	      ;; but now we are
+	      begin)
+	     ;; remove image
+	     (save-excursion
+	       (goto-char begin)
+	       (let ((ov (loop for ov in (org--list-latex-overlays)
+			       if
+			       (and
+				(<= (overlay-start ov) (point))
+				(>= (overlay-end ov) (point)))
+			       return ov)))
+		 (when ov
+		   (delete-overlay ov))))
+	     (setq kk/org-latex-fragment-last begin))))))
 
 ;; (setq tab-always-indent)
 (setq backup-directory-alist '(("." . "~/.saves/")))
-(setq python-shell-interpreter "ipython")
-(add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
+
 
 ;; Enable ansi colors in ipython shell
 (setq ansi-color-for-comint-mode t)
 
+;; Set python M-q indentation mode
+(setq python-fill-docstring-style 'symmetric)
+
 ;; Disable the use of line-move-partial
 ;; This hopefully reduces navigation lag
 (setq auto-window-vscroll nil)
+
+;; Encoding for copy pasting text in windows
+(set-selection-coding-system 'utf-16-le)
 
 ;; Magit keybindings
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -214,18 +358,13 @@
 (rainbow-mode)
 (use-package gruvbox-theme
  :ensure t
- :init 
-  (load-theme 'gruvbox-dark-soft)
   )
 
 (use-package grandshell-theme
  :ensure t)
 (tool-bar-mode -1)
 
-;; ido for better completions
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
+(load-theme 'grandshell)
 
 ;; Set which buffers should be opened on the same window
 (push (cons "\\*shell\\*" display-buffer--same-window-action) display-buffer-alist)
@@ -242,23 +381,25 @@
 (set-selection-coding-system 'utf-8)
 
 ;; Page refresh keybinding
-(global-set-key (kbd "<f5>") 'revert-buffer)
+(defun revert-buffer-no-confirm ()
+  "Revert buffer without confirmation."
+  (interactive) (revert-buffer t t))
+(global-set-key (kbd "<f5>") 'revert-buffer-no-confirm)
 
 
 ;; Reload PATH when running emacsclient
-(defun my-update-env ()
-  (interactive)
+(defun my-update-env (fn)
   (let ((str 
-         (with-temp-buffer
-           (insert-file-contents "env.txt")
-           (buffer-string))) lst)
+	 (with-temp-buffer
+	   (insert-file-contents fn)
+	   (buffer-string))) lst)
     (setq lst (split-string str "\000"))
     (while lst
       (setq cur (car lst))
       (when (string-match "^\\(.*?\\)=\\(.*\\)" cur)
-        (setq var (match-string 1 cur))
-        (setq value (match-string 2 cur))
-        (setenv var value))
+	(setq var (match-string 1 cur))
+	(setq value (match-string 2 cur))
+	(setenv var value))
       (setq lst (cdr lst)))))
 
 ;; Start server only in the daemon instance
@@ -283,11 +424,25 @@
 (projectile-mode 1)
 
 (global-hl-line-mode t)
-(global-linum-mode t)
+(global-linum-mode nil)
 
 (add-hook 'prog-mode-hook 'flycheck-mode)
+(add-hook 'python-mode-hook 'linum-mode)
 
 (require 'verilog-mode)
 (setq verilog-compiler 'iverilog)
 
-(global-set-key (kbd "M-[") (kbd "C-x 8 '"))
+(global-set-key (kbd "C-x c") 'whitespace-cleanup)
+
+(custom-set-variables
+'(jdee-server-dir "C:\\Users\\Javier\\Desktop\\Polytechnique\\PolyGit\\jdee-server"))
+
+(setq ispell-program-name "C:\\MinGW\\hunspell\\bin\\hunspell")
+
+;; Use pdf-tools to open PDF files
+(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+      TeX-source-correlate-start-server t)
+
+;; Update PDF buffers after successful LaTeX runs
+(add-hook 'TeX-after-compilation-finished-functions
+           #'TeX-revert-document-buffer)
