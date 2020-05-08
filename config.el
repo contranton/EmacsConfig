@@ -202,9 +202,6 @@
   (use-package iedit
     :ensure t)
 
-  (use-package powerline
-    :ensure t)
-
 (setq python-shell-interpreter "ipython")
 (add-to-list 'python-shell-completion-native-disabled-interpreters "ipython")
 
@@ -417,14 +414,17 @@
     (add-hook 'edit-server-done-hook  'edit-server-maybe-htmlize-buffer)
   )
 
+(desktop-save-mode)
+
 (delete-selection-mode 1)
 (workgroups-mode 1)
 (global-origami-mode 1)
 (global-visual-line-mode 1)
 (projectile-mode 1)
+(toggle-truncate-lines)
 
 (global-hl-line-mode t)
-(global-linum-mode nil)
+(global-linum-mode 0)
 
 (add-hook 'prog-mode-hook 'flycheck-mode)
 (add-hook 'python-mode-hook 'linum-mode)

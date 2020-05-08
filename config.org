@@ -210,9 +210,6 @@
     (use-package iedit
       :ensure t)
 
-    (use-package powerline
-      :ensure t)
-
 #+END_SRC
 
 ** Fix ipython
@@ -466,15 +463,17 @@
 
 #+BEGIN_SRC emacs-lisp
 
+  (desktop-save-mode)
 
-(delete-selection-mode 1)
-(workgroups-mode 1)
-(global-origami-mode 1)
-(global-visual-line-mode 1)
-(projectile-mode 1)
+  (delete-selection-mode 1)
+  (workgroups-mode 1)
+  (global-origami-mode 1)
+  (global-visual-line-mode 1)
+  (projectile-mode 1)
+  (toggle-truncate-lines)
 
-(global-hl-line-mode t)
-(global-linum-mode nil)
+  (global-hl-line-mode t)
+  (global-linum-mode 0)
 
 #+END_SRC
    

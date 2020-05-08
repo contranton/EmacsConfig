@@ -13,6 +13,7 @@
 	electric-newline-and-maybe-indent
 	electric-pair-delete-pair
 	electric-verilog-tab
+	electric-verilog-tick
 	elpy-nav-indent-shift-left
 	elpy-shell-send-region-or-buffer
 	end-of-defun
@@ -25,6 +26,8 @@
 	indent-new-comment-line
 	kill-region
 	kill-visual-line
+	kmacro-start-macro-or-insert-counter
+	org-end-of-line
 	org-force-self-insert
 	org-metaleft
 	org-metaright
@@ -45,6 +48,7 @@
 	iedit-switch-to-mc-mode
 	ignore
 	keyboard-escape-quit
+	kmacro-end-or-call-macro
 	org-export-dispatch
 	outline-previous-visible-heading
 	plantuml-preview
